@@ -1,6 +1,12 @@
 .App {
-  width: 40%;
+  width: 60%;
   margin: auto;
+  display: flex;
+  flex: inherit;
+  flex-direction: column;
+  
+  background-color: rgb(215, 235, 235);
+  padding: 100px;
 }
 
 .header {
@@ -29,6 +35,11 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.add-todo-form{
+  align-items: center;
+  text-align: center;
+  padding: 0px 50px 50px 50px
+}
 
 .App-link {
   color: #61dafb;
@@ -42,3 +53,7 @@
     transform: rotate(360deg);
   }
 }
+
+/* .card-header{
+  background-color: green 
+} */

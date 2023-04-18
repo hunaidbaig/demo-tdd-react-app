@@ -1,12 +1,19 @@
 .itemContainer {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
     margin: 15px 0;
+    /* border: 1px solid black; */
+    /* padding: 5px; */
+    width: 80%
   }
   
   .closeBtn {
-    color: red;
-    font-weight: 800;
+    color: white;
+    font-weight: 500;
+    padding: 5px;
+    margin: 10px;
+    width: 20%
   }
   
   .closeBtn:hover {
@@ -14,4 +21,12 @@
   }
   .completed {
     text-decoration: line-through;
+  }
+
+  .checkBox{
+    margin: 0px 10px 40px 5px;
+  }
+
+  .header{
+    color: green;
   }
