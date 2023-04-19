@@ -21,7 +21,7 @@ const TodoItem = ({editUpdateTodo, todo, removeHandler, updateTodo, title, descr
     <div>
       <label
         htmlFor={`checkbox-${todo.id}`}
-        className={todo.completed ? styles.completed : '' + styles.cardContainer}
+        className={todo.completed ? styles.completed + ' '+ styles.cardContainer : '' + styles.cardContainer}
       >
           <div className="card">
             <h5 className="card-header" style={{"backgroundColor" : `${todo.completed ? "red" : "green"}`}}>{todo.title}</h5>
