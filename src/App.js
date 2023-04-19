@@ -7,11 +7,11 @@ import TodoItem from './components/TodoItem';
 function App() {
 
   const [todos, setTodos] = useState([]);
+  const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [date, setDate] = useState('')
-  const [newTodo, setNewTodo] = useState({});
   const [saving, setSaving] = useState(false);
   function onChangeTitle(e) {
     let value = e.target.value
@@ -47,11 +47,29 @@ function App() {
     setLoading(false);
   }
 
+  function editUpdateTodo(id, todo, editModalOpen) {
+    let arr = [...todos]
+    console.log(id, todo)
+    setLoading(true);
+    for(let i in arr){
+      console.log('outer', i);
+      if(i == id){
+        console.log('inner');
+        arr[i] = todo
+      }
+    }
+    setTodos(arr);
+    editModalOpen();
+    setLoading(false);
+  }
+
+
+
   function addTodo(e) {
     e.preventDefault();
     const value = {
-      userId: 3,
-      id: Math.floor(Math.random() * 10000) + 1,
+      userId: 4,
+      id: count,
       title: title,
       description: description,
       date: date,
@@ -72,6 +90,7 @@ function App() {
         setTodos(todos.concat({ ...result, id: value.id }));
         setSaving(false);
       });
+      setCount(count+1);
       setTitle("")
       setDescription("")
       setDate("")
@@ -99,11 +118,9 @@ function App() {
         ) : (
           <form onSubmit={addTodo}>
           <div className="mb-3">
-            {/* <label htmlFor="exampleInputEmail1" className="form-label" >Title</label> */}
             <input placeholder='Title' type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={onChangeTitle}/>
           </div>
           <div className="mb-3">
-            {/* <label htmlFor="exampleInputPassword1" className="form-label" >Description</label> */}
             <input placeholder='Description' type="text" className="form-control" id="exampleInputPassword1" onChange={onChangeDescription}/>
           </div>
           <div className="mb-3">
@@ -111,10 +128,6 @@ function App() {
           </div>
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
-          // <form onSubmit={addTodo}>
-          //   <input type="text" onChange={onChange} />
-          //   <button type="submit">Add new todo</button>
-          // </form>
         )}
       </div>
       <hr />
@@ -122,7 +135,18 @@ function App() {
       {loading ? (
         'Loading'
       ) : (
-        <TodoList todos={todos} removeHandler={removeTodo} updateTodo={updateTodo} />
+        <TodoList 
+          todos={todos}
+          title={title}
+          description={description}
+          date={date}
+          onChangeTitle={onChangeTitle} 
+          onChangeDescription={onChangeDescription}
+          onChangeDate={onChangeDate}
+          removeHandler={removeTodo} 
+          updateTodo={updateTodo}
+          editUpdateTodo={editUpdateTodo}
+          />
       )}
     </div>
   );

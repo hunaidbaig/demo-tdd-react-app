@@ -1,8 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import EditModal from './EditModal';
 import styles from './TodoItem.module.css';
 // import { act } from '@testing-library/react';
 
-const TodoItem = ({ todo, removeHandler, updateTodo }) => {
+const TodoItem = ({editUpdateTodo, todo, removeHandler, updateTodo, title, description, date, onChangeTitle, onChangeDescription, onChangeDate }) => {
+  const [editModal, setEditModal] = useState(false);
+
+  const editModalOpen = ()=>{
+    setEditModal(!editModal);
+  }
+
+
   useEffect(() => {
     if(Date.parse(todo.date) < Date.now()){
       updateTodo(todo.id)
@@ -11,49 +19,53 @@ const TodoItem = ({ todo, removeHandler, updateTodo }) => {
 
   return (<div className={styles.itemContainer}>
     <div>
-      {/* <input
-        type="checkbox"
-        name={`checkbox-${todo.id}`}
-        checked={todo.completed}
-        data-testid={`checkbox-${todo.id}`}
-        onChange={() => updateTodo(todo.id)}
-        // className={styles.checkBox}
-      /> */}
       <label
         htmlFor={`checkbox-${todo.id}`}
-        className={todo.completed ? styles.completed : ''}
+        className={todo.completed ? styles.completed : '' + styles.cardContainer}
       >
-        <div>
           <div className="card">
             <h5 className="card-header" style={{"backgroundColor" : `${todo.completed ? "red" : "green"}`}}>{todo.title}</h5>
             <div className="card-body">
-              <h5 className="card-title">{todo.date}</h5>
               <p className="card-text">{todo.description}</p>
+              <small className="card-title">{todo.date}</small>
               <div>
               <button disabled={todo.completed} onClick={() => updateTodo(todo.id)} className="btn btn-primary">completed</button>
               </div>
             </div>
-            {/* <button
-              className={styles.closeBtn}
-              data-testid={`close-btn-${todo.id}`}
-              onClick={() => removeHandler(todo.id)}
-            >
-              X
-            </button> */}
+            <div className={styles.btnMain}>
+              <button
+                className={styles.closeBtn + " btn btn-primary"}
+                data-testid={`close-btn-${todo.id}`}
+                onClick={() => editModalOpen()}
+              >
+                Edit
+              </button>
+              <button
+                className={styles.closeBtn + " btn btn-danger"}
+                data-testid={`close-btn-${todo.id}`}
+                onClick={() => removeHandler(todo.id)}
+              >
+                delete
+              </button>
+            </div>
           </div>
-          {/* <h6>{todo.title}</h6>
-          <p>{todo.description}</p>
-          <small>{todo.date}</small> */}
-        </div>
+        
       </label>
     </div>
-    <button
-      className={styles.closeBtn + " btn btn-danger"}
-      data-testid={`close-btn-${todo.id}`}
-      onClick={() => removeHandler(todo.id)}
-    >
-      delete
-    </button>
+    { editModal &&
+      <EditModal 
+        editModalOpen={editModalOpen} 
+        todo={todo}  
+        title={title}
+        description={description}
+        date={date}
+        onChangeTitle={onChangeTitle} 
+        onChangeDescription={onChangeDescription}
+        onChangeDate={onChangeDate}
+        editUpdateTodo={editUpdateTodo}
+      
+        />
+    }
   </div>)
 };
 
